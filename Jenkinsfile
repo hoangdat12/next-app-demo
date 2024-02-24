@@ -19,13 +19,18 @@ pipeline {
         }
 
         stage("SonarQube analysis") {
-            scripts {
-                def scannerHome = tool 'SonarScanner';
-                withSonarQubeEnv(credentialsId: 'Jenkins-token') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+            stage("SonarQube analysis") {
+                steps {
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+                        withSonarQubeEnv(credentialsId: 'Jenkins-token') {
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                    }
                 }
             }
         }
+        
 
     } 
     
