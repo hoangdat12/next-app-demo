@@ -27,20 +27,19 @@ pipeline {
             }
         }
 
-        state("Build & Push Docker Image") {
-            steps {
-                script {
-                    docker.withRegister('', DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
-                    }
-
-                    docker.withRegister('', DOCKER_PASS) {
-                        docker_image.push("${IMAGE_NAME}")
-                        docker_image.push("latest")
+        stage("SonarQube analysis") {
+            stage("SonarQube analysis") {
+                steps {
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+                        withSonarQubeEnv(credentialsId: 'Jenkins-token') {
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
                     }
                 }
             }
         }
+        
 
     } 
     
