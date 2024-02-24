@@ -5,6 +5,15 @@ pipeline {
         nodejs "nodejs"
     }
 
+    environment {
+        APP_NAME = "demo-project"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "hoangdat12"
+        DOCKER_PASS = "dockerhub"
+        IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+    }
+
     stages {
         stage("Install") {
             steps {
@@ -18,7 +27,7 @@ pipeline {
             }
         }
 
-        stage("Build & Deploy Docker Image") {
+        state("Build & Deploy Docker Image") {
             steps {
                 script {
                     docker.withRegister("", DOCKER_PASS) {
