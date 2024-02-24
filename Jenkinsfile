@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-        state("Build & Deploy Docker Image") {
+        stage("Build & Deploy Docker Image") {
             steps {
                 script {
                     docker.withRegister("", DOCKER_PASS) {
