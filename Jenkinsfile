@@ -1,30 +1,40 @@
 pipeline {
-  agent any
-  stages {
-    stage('install') {
-      steps {
-        sh 'npm install'
-      }
+    agent any
+    
+    tools {
+        nodejs "nodejs"
     }
 
-    stage('build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
+    stages {
+        stage("Install") {
+            steps {
+                sh 'npm install'
+            }
+        }
 
-  }
-  tools {
-    nodejs 'nodejs'
-  }
-  post {
-    success {
-      echo 'SUCCESSFUL'
-    }
+        stage("Build") {
+            steps {
+                sh 'npm run build'
+            }
+        }
 
-    failure {
-      echo 'FAILED'
-    }
+        stage("SonarQube analysis") {
+            scripts {
+                def scannerHome = tool 'SonarScanner';
+                withSonarQubeEnv(credentialsId: 'Jenkins-token') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
 
-  }
+    } 
+    
+    post {
+        success {
+            echo "SUCCESSFUL"
+        }
+        failure {
+            echo "FAILED"
+        }
+    }
 }
