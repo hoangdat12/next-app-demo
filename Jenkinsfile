@@ -6,16 +6,27 @@ pipeline {
     }
 
     stages {
-        stage("install") {
+        stage("Install") {
             steps {
                 sh 'npm install'
             }
         }
-        stage("build") {
+
+        stage("Build") {
             steps {
                 sh 'npm run build'
             }
         }
+
+        stage("SonarQube analysis") {
+            scripts {
+                def scannerHome = tool 'SonarScanner';
+                withSonarQubeEnv(credentialsId: 'Jenkins-token') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+
     } 
     
     post {
