@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+        stage ('Checkout') { 
+            steps { 
+                git branch:'main', url: 'https://github.com/hoangdat12/next-app-demo' 
+            } 
+        } 
+        
         stage("Install") {
             steps {
                 sh 'npm install'
