@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool 'SonarScanner';
-                    withSonarQubeEnv(credentialsId: "jenkins-token") {
+                    withSonarQubeEnv(credentialsId: "Jenkins-token") {
                       sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
