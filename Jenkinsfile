@@ -15,6 +15,10 @@ pipeline {
     }
 
     stages {
+        stage('SCM') {
+            checkout scm
+        }
+        
         stage("Install") {
             steps {
                 sh 'npm install'
@@ -26,6 +30,13 @@ pipeline {
                 sh 'npm run build'
             }
         }
+
+        stage('SonarQube Analysis') {
+            def scannerHome = tool 'SonarScanner';
+            withSonarQubeEnv(credentialsId: "jenkins-token") {
+              sh "${scannerHome}/bin/sonar-scanner"
+            }
+          }
 
         stage("Build & Deploy Docker Image") {
             steps {
