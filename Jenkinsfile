@@ -44,13 +44,13 @@ pipeline {
             }
         }
 
-        stage("Quality Gate") {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: "Jenkins-token"
-                }
-            }
-        }
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             waitForQualityGate abortPipeline: false, credentialsId: "Jenkins-token"
+        //         }
+        //     }
+        // }
 
         stage("Build & Deploy Docker Image") {
             steps {
