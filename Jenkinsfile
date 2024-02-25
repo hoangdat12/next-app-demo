@@ -37,7 +37,7 @@ pipeline {
                     echo "IMAGE_TAG: ${IMAGE_TAG}"
 
                     // Authenticate with Docker registry
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         // Build and push Docker image
                         sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
                         sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
