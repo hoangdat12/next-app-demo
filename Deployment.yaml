@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-deployment # Name of the Deployment resource
+spec:
+  selector:
+    matchLabels:
+      app: demo-app-label # Selector to match labels for identifying managed pods
+  template:
+    metadata:
+      labels:
+        app: demo-app-label # Labels for the pods created by the template
+    spec:
+      containers:
+        - name: demo-app-container # Name of the container inside the pod
+          image: hoangdat12/demo-project
+          resources:
+            # limits:
+            # memory: "128Mi"
+            # cpu: "500m"
+          ports:
+            - containerPort: 8080
